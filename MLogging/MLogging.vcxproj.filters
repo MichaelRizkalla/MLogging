@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Src\Private\MLoggingPCH.cpp" />
+    <ClCompile Include="Src\Private\Common\EntryPoint.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Private\Logger\Logger.cpp">
+      <Filter>Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Private\Logger\MLogger.cpp">
+      <Filter>Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Private\Logger\LoggerImpl\LoggerImpl.cpp">
+      <Filter>Logger\LoggerImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Private\Enums\Enums.cpp">
+      <Filter>Enums</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Src\Public\MLoggingPCH.h" />
+    <ClInclude Include="Src\Public\Common\MLogging.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Public\Common\Compiler\MSVC.h">
+      <Filter>Common\Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Public\Defines\MLoggingTraits.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Public\Defines\Includes.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Public\Logger\Logger.h">
+      <Filter>Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Public\Logger\MLogger.h">
+      <Filter>Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Private\Logger\LoggerImpl\LoggerImpl.h">
+      <Filter>Logger\LoggerImpl</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Private\Logger\LoggerImpl\Log.h">
+      <Filter>Logger\LoggerImpl</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Public\Defines\Exceptions.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Public\Enums\Enums.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>{e1e455a9-9558-4ed5-9632-1de5c4718364}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Compiler">
+      <UniqueIdentifier>{6c98cbac-eefa-4df0-8682-b3ce50e69152}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Defines">
+      <UniqueIdentifier>{4c5347f0-e7f0-402e-b98a-dd3a6ebfff30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logger">
+      <UniqueIdentifier>{1f03d7cd-c108-4fa7-8355-352991ab4850}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logger\LoggerImpl">
+      <UniqueIdentifier>{e719dc44-4847-481e-964e-f5754b2350a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enums">
+      <UniqueIdentifier>{ab1ef5fc-0efc-4fbf-b11f-72e35d55b4eb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
