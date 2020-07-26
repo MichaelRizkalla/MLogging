@@ -63,11 +63,11 @@ namespace MLog {
 	}
 
 	void MLoggerImpl::add(Log&& log_) {
-		if (!MLogger::state_) {
+		if (!MLog::getState()) {
 			throw MLog::MLoggerIsNotStarted();
 		}
 
-		if (MLogger::mode_ == launch::seq)
+		if (MLog::getMode() == launch::seq)
 			logNow(std::move(log_));
 		else {
 			std::lock_guard<std::mutex> guard(lock_);

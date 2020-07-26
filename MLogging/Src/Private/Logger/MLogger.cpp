@@ -5,51 +5,39 @@
 
 namespace MLog {
 
-	std::ostream* MLogger::out_ = nullptr;
+	static std::ostream* out_ = nullptr;
 
-	launch MLogger::mode_ = launch::invalid;
+	static launch mode_ = launch::invalid;
 
-	std::map<Level, std::function<void()>> MLogger::callbacks_ = { {Level::Information, nullptr}, {Level::Warning, nullptr}, {Level::Error, nullptr} };
+	static std::map<Level, void(*)()> callbacks_ = { {Level::Information, nullptr}, {Level::Warning, nullptr}, {Level::Error, nullptr} };
 
-	std::atomic_bool MLogger::state_ = false;
+	static std::atomic_bool state_ = false;
 
-	void MLogger::setOutputTarget(std::ostream& os) noexcept {
+	void setOutputTarget(std::ostream& os) {
 		if (state_ == true)
 			return;
 		out_ = &os;
 	}
 
-	void MLogger::setLaunchMode(launch&& mode) noexcept {
+	void setLaunchMode(launch&& mode) {
 		if (state_ == true)
 			return;
 		mode_ = std::move(mode);
 	}
 
-	void MLogger::setInformationCallback(Callback&& callback) noexcept {
+	void setInformationCallback(Callback callback) {
 		callbacks_[Level::Information] = std::move(callback);
 	}
 
-	void MLogger::setWarningCallback(Callback&& callback) noexcept {
+	void setWarningCallback(Callback callback) {
 		callbacks_[Level::Warning] = std::move(callback);
 	}
 
-	void MLogger::setErrorCallback(Callback&& callback) noexcept {
+	void setErrorCallback(Callback callback) {
 		callbacks_[Level::Error] = std::move(callback);
 	}
 
-	void MLogger::setInformationCallback(const Callback& callback) noexcept {
-		callbacks_[Level::Information] = callback;
-	}
-
-	void MLogger::setWarningCallback(const Callback& callback) noexcept {
-		callbacks_[Level::Warning] = callback;
-	}
-
-	void MLogger::setErrorCallback(const Callback& callback) noexcept {
-		callbacks_[Level::Error] = callback;
-	}
-
-	void MLogger::start() {
+	void start() noexcept(false) {
 		if (mode_ == launch::invalid || out_ == nullptr) {
 			throw MLoggerIsNotConfigured();
 		}
@@ -62,7 +50,7 @@ namespace MLog {
 		}
 	}
 	
-	void MLogger::stop() {
+	void stop() noexcept(false) {
 		if (state_ == false) {
 			throw MLoggerIsNotStarted();
 		}
@@ -72,15 +60,23 @@ namespace MLog {
 		state_ = false;
 	}
 
-	bool MLogger::isRunning() {
+	bool isRunning() {
 		return MLog::MLoggerImpl::getInstance()->isRunning();
 	}
 
-	std::map<Level, std::function<void()>> MLogger::getCallbacks() {
-		return callbacks_;
+	void* getCallbacks(Level lvl) {
+		return callbacks_[lvl];
 	}
 
-	std::ostream* MLogger::getTarget() {
+	std::ostream* getTarget() {
 		return out_;
+	}
+
+	launch getMode() {
+		return mode_;
+	}
+
+	bool getState() {
+		return state_;
 	}
 }

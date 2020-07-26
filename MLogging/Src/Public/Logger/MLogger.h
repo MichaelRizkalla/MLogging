@@ -3,85 +3,64 @@
 #include <Common/MLogging.h>
 #include <Enums/Enums.h>
 
-namespace MLog {
-	class MLoggerImpl;
 
-	class MLogger {
-		friend class MLoggerImpl;
+extern "C" {
 
-	public:
-		using CallbackType = void();
-		using Callback = std::function<CallbackType>;
+	namespace MLog {
 
+		typedef void CallbackType;
+		typedef void(*Callback)();
 		/// <summary>
 		/// Changes the output target, if MLogger is already started
 		/// the new target is ignored
 		/// </summary>
-		MLOGGING(class) static void setOutputTarget(std::ostream& os) noexcept;
+		MLOGGING(class) void setOutputTarget(std::ostream& os);
 
 		/// <summary>
 		/// Changes the launch mode, if MLogger is already started
 		/// the new launch mode is ignored
 		/// </summary>
-		MLOGGING(class) static void setLaunchMode(launch&& mode) noexcept;
+		MLOGGING(class) void setLaunchMode(launch&& mode);
 
 		/// <summary>
 		/// Sets the callback for logs of Level::Information 
 		/// </summary>
-		MLOGGING(class) static void setInformationCallback(Callback&& callback) noexcept;
+		MLOGGING(class) void setInformationCallback(Callback callback);
 
 		/// <summary>
 		/// Sets the callback for logs of Level::Warning 
 		/// </summary>
-		MLOGGING(class) static void setWarningCallback(Callback&& callback) noexcept;
+		MLOGGING(class) void setWarningCallback(Callback callback);
 
 		/// <summary>
 		/// Sets the callback for logs of Level::Error 
 		/// </summary>
-		MLOGGING(class) static void setErrorCallback(Callback&& callback) noexcept;
-
-		/// <summary>
-		/// Sets the callback for logs of Level::Information 
-		/// </summary>
-		MLOGGING(class) static void setInformationCallback(const Callback& callback) noexcept;
-
-		/// <summary>
-		/// Sets the callback for logs of Level::Warning 
-		/// </summary>
-		MLOGGING(class) static void setWarningCallback(const Callback& callback) noexcept;
-
-		/// <summary>
-		/// Sets the callback for logs of Level::Error 
-		/// </summary>
-		MLOGGING(class) static void setErrorCallback(const Callback& callback) noexcept;
+		MLOGGING(class) void setErrorCallback(Callback callback);
 
 		/// <summary>
 		/// Startes the logger if configuration is complete
 		/// throws if: launch mode or target are not specified
 		///				or the logger is already started
 		/// </summary>
-		MLOGGING(class) static void start();
+		MLOGGING(class) void start() noexcept(false);
 
 		/// <summary>
 		/// stops the logger
 		/// throws if: the logger is already stopped
 		/// </summary>
-		MLOGGING(class) static void stop();
+		MLOGGING(class) void stop() noexcept(false);
 
 		/// <summary>
 		/// Returns if the logger is running
 		/// </summary>
-		MLOGGING(class) static bool isRunning();
+		MLOGGING(class) bool isRunning();
 
-		static std::map<Level, std::function<void()>> getCallbacks();
+		void* getCallbacks(Level lvl);
 
-		static std::ostream* getTarget();
+		std::ostream* getTarget();
 
-	private:
-		static std::ostream* out_;
-		static launch mode_;
-		static std::map<Level, std::function<void()>> callbacks_;
-		static std::atomic_bool state_;
-	};
+		launch getMode();
 
+		bool getState();
+	}
 }

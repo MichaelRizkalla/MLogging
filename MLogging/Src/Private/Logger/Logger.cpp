@@ -8,7 +8,7 @@ namespace MLog {
 
 	void log(Level level, const char* message) {
 		auto logger_ = MLoggerImpl::getInstance();
-		logger_->add(Log(level, message, MLogger::getTarget(), MLogger::getCallbacks()[level]));
+		logger_->add(Log(level, message, MLog::getTarget(), static_cast<void(*)()>(MLog::getCallbacks(level))));
 	}
 
 }

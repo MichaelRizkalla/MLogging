@@ -21,4 +21,4 @@ namespace MLog {
 	};
 }
 
-MLOGGING(enum) std::ostream& operator<<(std::ostream& os, MLog::Level lvl); 
+extern "C" MLOGGING(enum) std::ostream& operator<<(std::ostream& os, MLog::Level lvl); 
