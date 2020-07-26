@@ -1,2 +1,2 @@
 # MLogging
- C++-based library that provides an API to simple logging
+ C++-based library that provides an API to simple thread-safe logging
