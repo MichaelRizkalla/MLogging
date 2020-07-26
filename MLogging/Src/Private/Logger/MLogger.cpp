@@ -1,6 +1,8 @@
 #include <MLoggingPCH.h>
 #include <Logger/MLogger.h>
 
+#include <Logger/LoggerImpl/LoggerImpl.h>
+
 namespace MLog {
 
 	std::ostream* MLogger::out_ = nullptr;
@@ -12,10 +14,14 @@ namespace MLog {
 	std::atomic_bool MLogger::state_ = false;
 
 	void MLogger::setOutputTarget(std::ostream& os) noexcept {
+		if (state_ == true)
+			return;
 		out_ = &os;
 	}
 
 	void MLogger::setLaunchMode(launch&& mode) noexcept {
+		if (state_ == true)
+			return;
 		mode_ = std::move(mode);
 	}
 
@@ -44,10 +50,37 @@ namespace MLog {
 	}
 
 	void MLogger::start() {
-		state_ = true;
+		if (mode_ == launch::invalid || out_ == nullptr) {
+			throw MLoggerIsNotConfigured();
+		}
+		else if (state_ == true) {
+			throw MLoggerIsAlreadyStarted();
+		}
+		state_ = true; 
+		if (mode_ == launch::async) {
+			MLog::MLoggerImpl::getInstance()->run();
+		}
+	}
+	
+	void MLogger::stop() {
+		if (state_ == false) {
+			throw MLoggerIsNotStarted();
+		}
+		if (mode_ == launch::async) {
+			MLog::MLoggerImpl::getInstance()->stop();
+		}
+		state_ = false;
 	}
 
-	void MLogger::stop() {
-		state_ = false;
+	bool MLogger::isRunning() {
+		return MLog::MLoggerImpl::getInstance()->isRunning();
+	}
+
+	std::map<Level, std::function<void()>> MLogger::getCallbacks() {
+		return callbacks_;
+	}
+
+	std::ostream* MLogger::getTarget() {
+		return out_;
 	}
 }

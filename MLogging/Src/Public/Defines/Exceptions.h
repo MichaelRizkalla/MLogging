@@ -2,9 +2,21 @@
 
 namespace MLog {
 
-	struct LoggerIsNotStarted : public std::exception {
+	struct MLoggerIsNotStarted : public std::exception {
 		const char* what() const throw () {
-			return "Logger is not started!";
+			return "MLogger is not started!";
+		}
+	};
+
+	struct MLoggerIsNotConfigured : public std::exception {
+		const char* what() const throw () {
+			return "MLogger is not configured!";
+		}
+	};
+
+	struct MLoggerIsAlreadyStarted : public std::exception {
+		const char* what() const throw () {
+			return "MLogger is already started!";
 		}
 	};
 
