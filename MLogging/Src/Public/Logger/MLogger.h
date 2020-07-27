@@ -3,13 +3,15 @@
 #include <Common/MLogging.h>
 #include <Enums/Enums.h>
 
+namespace MLog {
+	using CallbackType = void() ;
+	using Callback = void(*)();
+}
 
 extern "C" {
 
 	namespace MLog {
 
-		typedef void CallbackType;
-		typedef void(*Callback)();
 		/// <summary>
 		/// Changes the output target, if MLogger is already started
 		/// the new target is ignored

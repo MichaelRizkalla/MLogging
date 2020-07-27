@@ -3,27 +3,26 @@
 #include <Logger/MLogger.h>
 
 namespace MLog {
-
-	MLoggerImpl::MLoggerImpl(enable_make_shared) {
+	MLoggerImpl::MLoggerImpl(make_enabler) {
 		state_ = false;
 	}
 
 	MLoggerImpl::~MLoggerImpl() = default;
+
+	MLoggerImpl* MLoggerImpl::getInstance() {
+		static std::once_flag initFlag;
+		static std::unique_ptr<MLoggerImpl> instance = nullptr;
+
+		std::call_once(initFlag, [&]() {instance = std::make_unique<MLoggerImpl>(make_enabler{}); });
+
+		return instance.get();
+	}
 
 	void MLoggerImpl::logNow(Log&& log) {
 		*log.target << log.level << ":: " << log.message << '\n';
 		if (log.callback != nullptr) {
 			log.callback();
 		}
-	}
-
-	std::shared_ptr<MLoggerImpl> MLoggerImpl::getInstance() {
-		static std::shared_ptr<MLoggerImpl> instance = nullptr;
-
-		if (instance == nullptr) {
-			instance = std::make_shared<MLoggerImpl>(enable_make_shared{});
-		}
-		return instance;
 	}
 
 	void MLoggerImpl::run() {
