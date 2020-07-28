@@ -27,11 +27,11 @@ namespace MLog {
 
 	protected:
 		// TODO: replace queue with a blocking queue implementation
-		std::queue<Log>						logs_; 
-		std::mutex							lock_;
-		std::atomic_bool					state_;
-		std::future<void>					this_;
-		std::condition_variable				cv_;
+		std::queue<Log>				logs_; 
+		std::mutex				lock_;
+		std::atomic_bool			state_;
+		std::future<void>			this_;
+		std::condition_variable			cv_;
 		std::unique_ptr<MLoggerImpl>		instance;
 
 		struct make_enabler {};
